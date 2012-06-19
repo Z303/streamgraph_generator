@@ -28,13 +28,15 @@ public class DiaryDataSource implements DataSource {
       
     // -2 for the timestamp and name tuimes the number of hours in the day      
     int sizeArrayLength = (chars.length - 2) * 24;
-    
-    
-    
+     
     Layer[] layers = new Layer[numLayers];
 
     for (int i = 0; i < numLayers; i++) {
-      String name   = "Layer #" + i;
+      String currentLine = rawData[i + 1];
+      int nameStart = currentLine.indexOf(',');
+      int nameEnd   = currentLine.indexOf(',', nameStart + 1);
+      
+      String name   = currentLine.subSequence(nameStart, nameEnd).toString();
       float[] size  = new float[sizeArrayLength];
       size          = makeRandomArray(sizeArrayLength);
       layers[i]     = new Layer(name, size);
