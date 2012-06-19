@@ -19,9 +19,6 @@ float       DPI           = 300;
 float       widthInches   = 7.756/3;
 float       heightInches  = 5.6102/3;
 
-
-
-
 DataSource  data;
 LayerLayout layout;
 LayerSort   ordering;
@@ -30,15 +27,12 @@ ColorPicker coloring;
 Layer[]     layers;
 
 void setup() {
-
-  // load the items
-  String lines[] = loadStrings(fileName);  
-  
   size(int(widthInches*DPI), int(heightInches*DPI));
   smooth();
   noLoop();
 
   // GENERATE DATA
+  String lines[] = loadStrings(fileName);   
   data     = new DiaryDataSource(lines);
 
   // ORDER DATA
@@ -70,17 +64,13 @@ void setup() {
   layout.layout(layers);
   coloring.colorize(layers);
 
-  // 
-   int numLayers = layers.length;
-  int layerSize = layers[0].size.length; 
-
   // fit graph to viewport
   scaleLayers(layers, 1, height - 1);
 
   // give report
   long layoutTime = System.currentTimeMillis()-time;
-  println("Data has " + numLayers + " layers, each with " +
-    layerSize + " datapoints.");
+  
+  println("Data has " + layers.length + " layers, each with " + layers[0].size.length + " datapoints.");
   println("Layout Method: " + layout.getName());
   println("Ordering Method: " + ordering.getName());
   println("Coloring Method: " + layout.getName());

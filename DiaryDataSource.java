@@ -1,4 +1,5 @@
 import java.util.*;
+import java.lang.String;
 
 /**
  * BelievableDataSource
@@ -8,50 +9,27 @@ import java.util.*;
  * @author Martin Wattenberg
  */
 public class DiaryDataSource implements DataSource {
-/*
-  public DiaryDataSource(String lines[]) {
-  }
-
-  public Layer[] make() {
-    int numLayers = 5;
-    int sizeArrayLength = 45;
-    Layer[] layers = new Layer[numLayers];
-   
  
-  // count the number of lines
-  numLayers = lines.length;
-  
-  // count the items in each line
-  layerSize = 0;
-  for (int i=0; i < lines.length; i++) {
-    String [] chars=split(lines[i],',');
-    if (chars.length>layerSize) {
-      layerSize=chars.length;
-    }
-  }   
-  
-    
-    for (int i = 0; i < numLayers; i++) {
-      String name   = "Layer #" + i;
-      float[] size  = new float[sizeArrayLength];
-      for (int j = 0; j < numLayers; j++) {
-        size[j] = 0;
-      }
-      layers[i]     = new Layer(name, size);
-    }
-
-    return layers;
-  }
-*/  
   public Random rnd;
-
+  
+  public String rawData[];
+  
   public DiaryDataSource(String lines[]) {
     rnd = new Random(2);
+    rawData = lines;
   }
 
   public Layer[] make() {
-    int numLayers = 5;
-    int sizeArrayLength = 45;    
+    // count the number of lines ( -1 for the legend on the first line)
+    int numLayers = rawData.length - 1;
+    
+    // count the items in each line
+    String [] chars = rawData[0].split(",");
+      
+    // -2 for the timestamp and name tuimes the number of hours in the day      
+    int sizeArrayLength = (chars.length - 2) * 24;
+    
+    
     
     Layer[] layers = new Layer[numLayers];
 
