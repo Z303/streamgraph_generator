@@ -10,14 +10,17 @@
  * @author Martin Wattenberg
  */
 
+String      fileName = "people.csv";
+
 boolean     isGraphCurved = true; // catmull-rom interpolation
 int         seed          = 28;   // random seed
 
 float       DPI           = 300;
-float       widthInches   = 3.5;
-float       heightInches  = 0.7;
-int         numLayers     = 50;
-int         layerSize     = 100;
+float       widthInches   = 7.756/3;
+float       heightInches  = 5.6102/3;
+
+
+
 
 DataSource  data;
 LayerLayout layout;
@@ -28,13 +31,15 @@ Layer[]     layers;
 
 void setup() {
 
+  // load the items
+  String lines[] = loadStrings(fileName);  
+  
   size(int(widthInches*DPI), int(heightInches*DPI));
   smooth();
   noLoop();
 
   // GENERATE DATA
-  data     = new LateOnsetDataSource();
-  //data     = new BelievableDataSource();
+  data     = new DiaryDataSource(lines);
 
   // ORDER DATA
   ordering = new LateOnsetSort();
@@ -44,14 +49,14 @@ void setup() {
   //ordering = new NoLayerSort();
 
   // LAYOUT DATA
-  layout   = new StreamLayout();
-  //layout   = new MinimizedWiggleLayout();
+  //layout   = new StreamLayout();
+  layout   = new MinimizedWiggleLayout();
   //layout   = new ThemeRiverLayout();
   //layout   = new StackLayout();
 
   // COLOR DATA
-  coloring = new LastFMColorPicker(this, "layers-nyt.jpg");
-  //coloring = new LastFMColorPicker(this, "layers.jpg");
+  //coloring = new LastFMColorPicker(this, "layers-nyt.jpg");
+  coloring = new LastFMColorPicker(this, "layers.jpg");
   //coloring = new RandomColorPicker(this);
 
   //=========================================================================
@@ -60,18 +65,20 @@ void setup() {
   long time = System.currentTimeMillis();
 
   // generate graph
-  layers = data.make(numLayers, layerSize);
+  layers = data.make();
   layers = ordering.sort(layers);
   layout.layout(layers);
   coloring.colorize(layers);
+
+  // 
+   int numLayers = layers.length;
+  int layerSize = layers[0].size.length; 
 
   // fit graph to viewport
   scaleLayers(layers, 1, height - 1);
 
   // give report
   long layoutTime = System.currentTimeMillis()-time;
-  int numLayers = layers.length;
-  int layerSize = layers[0].size.length;
   println("Data has " + numLayers + " layers, each with " +
     layerSize + " datapoints.");
   println("Layout Method: " + layout.getName());
@@ -136,7 +143,7 @@ void draw() {
 }
 
 void graphVertex(int point, float[] source, boolean curve, boolean pxl) {
-  float x = map(point, 0, layerSize - 1, 0, width);
+  float x = map(point, 0, layers[0].size.length - 1, 0, width);
   float y = source[point] - (pxl ? 1 : 0);
   if (curve) {
     curveVertex(x, y);

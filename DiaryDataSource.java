@@ -7,20 +7,52 @@ import java.util.*;
  * @author Lee Byron
  * @author Martin Wattenberg
  */
-public class BelievableDataSource implements DataSource {
+public class DiaryDataSource implements DataSource {
+/*
+  public DiaryDataSource(String lines[]) {
+  }
 
+  public Layer[] make() {
+    int numLayers = 5;
+    int sizeArrayLength = 45;
+    Layer[] layers = new Layer[numLayers];
+   
+ 
+  // count the number of lines
+  numLayers = lines.length;
+  
+  // count the items in each line
+  layerSize = 0;
+  for (int i=0; i < lines.length; i++) {
+    String [] chars=split(lines[i],',');
+    if (chars.length>layerSize) {
+      layerSize=chars.length;
+    }
+  }   
+  
+    
+    for (int i = 0; i < numLayers; i++) {
+      String name   = "Layer #" + i;
+      float[] size  = new float[sizeArrayLength];
+      for (int j = 0; j < numLayers; j++) {
+        size[j] = 0;
+      }
+      layers[i]     = new Layer(name, size);
+    }
+
+    return layers;
+  }
+*/  
   public Random rnd;
 
-  public BelievableDataSource() {
-    // seeded, so we can reproduce results
-    this(2);
+  public DiaryDataSource(String lines[]) {
+    rnd = new Random(2);
   }
 
-  public BelievableDataSource(int seed) {
-    rnd = new Random(seed);
-  }
-
-  public Layer[] make(int numLayers, int sizeArrayLength) {
+  public Layer[] make() {
+    int numLayers = 5;
+    int sizeArrayLength = 45;    
+    
     Layer[] layers = new Layer[numLayers];
 
     for (int i = 0; i < numLayers; i++) {
@@ -53,6 +85,6 @@ public class BelievableDataSource implements DataSource {
       float a = (i / (float)x.length - cx) / r;
       x[i] += height * Math.exp(-a * a);
     }
-  }
+  }  
 
 }

@@ -7,6 +7,6 @@
  */
 public interface DataSource {
 
-  public Layer[] make(int numLayers, int sizeArrayLength);
+  public Layer[] make();
 
 }
