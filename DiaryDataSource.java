@@ -33,38 +33,70 @@ public class DiaryDataSource implements DataSource {
 
     for (int i = 0; i < numLayers; i++) {
       String currentLine = rawData[i + 1];
-      int nameStart = currentLine.indexOf(',');
-      int nameEnd   = currentLine.indexOf(',', nameStart + 1);
       
-      String name   = currentLine.subSequence(nameStart, nameEnd).toString();
-      float[] size  = new float[sizeArrayLength];
-      size          = makeRandomArray(sizeArrayLength);
-      layers[i]     = new Layer(name, size);
+      // Find the name, skipping the timestamp
+      int nameStart  = currentLine.indexOf(',');
+      int nameEnd    = currentLine.indexOf(',', nameStart + 1);
+      String name    = currentLine.subSequence(nameStart + 1, nameEnd).toString();
+      
+      // Parse the entries for each day
+      String entries = currentLine.subSequence(nameEnd + 1, currentLine.length()).toString();      
+      float[] data   = processEntries(entries, sizeArrayLength);     
+      
+      // Create the layer
+      layers[i]     = new Layer(name, data);
     }
 
     return layers;
   }
 
-  protected float[] makeRandomArray(int n) {
+  protected float[] processEntries(String rawDays, int n) {
     float[] x = new float[n];
+    
+    // zero out all the hours to start with
+    for (int i=0; i<n; i++) {
+      x[i] = 0;
+    }    
+      
+    // see which hours we need to set
+    final int hoursInADay = 24;
+    final int days        = n / hoursInADay;
+    
+    String dayData        = rawDays;
 
-    // add a handful of random bumps
-    for (int i=0; i<5; i++) {
-      addRandomBump(x);
+    for (int i=0; i < days; i++) {
+      final int dayStart = dayData.indexOf('"') + 1;
+      final int dayEnd   = dayData.indexOf('"', dayStart + 1);
+      
+      if (dayStart < dayEnd) {
+        String hourData    = dayData.subSequence(dayStart, dayEnd).toString();
+  
+        while (hourData != "")
+        {
+          // Find the current hour
+          final int hoursEnd = hourData.indexOf(':');
+          String currentData =  hourData.subSequence(0, hoursEnd).toString();
+  
+          final int hourToSet = Integer.parseInt(currentData);
+          final int arrayPosition = (hoursInADay * i) + hourToSet;
+          x[arrayPosition] = 1;
+          System.out.printf("%d\n", arrayPosition);         
+          
+          // Move to the next hour
+          final int endOfString = hourData.indexOf(',');
+          if (endOfString == -1) {
+            hourData = "";
+          }
+          else {
+            hourData =  hourData.subSequence(endOfString + 2, hourData.length()).toString();      
+          }  
+        }
+      }
+
+      // Skip to the next day
+      dayData = dayData.subSequence(dayEnd + 1, dayData.length()).toString();     
     }
 
     return x;
   }
-
-  protected void addRandomBump(float[] x) {
-    float height  = 1 / rnd.nextFloat();
-    float cx      = (float)(2 * rnd.nextFloat() - 0.5);
-    float r       = rnd.nextFloat() / 10;
-
-    for (int i = 0; i < x.length; i++) {
-      float a = (i / (float)x.length - cx) / r;
-      x[i] += height * Math.exp(-a * a);
-    }
-  }  
-
 }

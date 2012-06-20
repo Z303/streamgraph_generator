@@ -100,8 +100,6 @@ void draw() {
 
   // generate graph
   for (int i = 0; i < n; i++) {
-    println("Elapsed Time: " + layers[i].name + "ms");
-
     start = max(0, layers[i].onset - 1);
     end   = min(m - 1, layers[i].end);
     pxl   = i == lastLayer ? 0 : 1;
