@@ -63,8 +63,8 @@ public class DiaryDataSource implements DataSource {
     final int days        = n / hoursInADay;
     
     final int initialHeight   = 60;
-    final float downScale     = 2;
-    final int noiseIterations = 2; 
+    final float downScale     = 2.45f;
+    final int noiseIterations = 10; 
     
     String dayData        = rawDays;
 
@@ -119,7 +119,7 @@ public class DiaryDataSource implements DataSource {
     for (int i = 0; i < count; i++) {
        int index = (int)(rnd.nextFloat() * hours.length);   
        if (hours[index] != 0) {
-         hours[index] += (1 * height * 2) - height;
+         hours[index] += (rnd.nextFloat() * height * 2) - height;
        }  
     }
   }  

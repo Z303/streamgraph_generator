@@ -43,9 +43,9 @@ void setup() {
   //ordering = new NoLayerSort();
 
   // LAYOUT DATA
-  layout   = new StreamLayout();
+  //layout   = new StreamLayout();
   //layout   = new MinimizedWiggleLayout();
-  //layout   = new ThemeRiverLayout();
+  layout   = new ThemeRiverLayout();
   //layout   = new StackLayout();
 
   // COLOR DATA
@@ -93,11 +93,42 @@ void draw() {
   int pxl;
 
   background(255);
-  noStroke();
+  strokeWeight(2);  
 
   // calculate time to draw graph
   long time = System.currentTimeMillis();
 
+  // generate graph
+  for (int i = 0; i < n; i++) {
+    start = max(0, layers[i].onset - 1);
+    end   = min(m - 1, layers[i].end);
+    pxl   = i == lastLayer ? 0 : 1;
+
+    // set fill color of layer
+    fill(0);
+  
+    // draw shape
+    beginShape();
+
+    // draw top edge, left to right
+    graphVertex(start, layers[i].yTop, isGraphCurved, i == lastLayer);
+    for (int j = start; j <= end; j++) {
+      graphVertex(j, layers[i].yTop, isGraphCurved, i == lastLayer);
+    }
+    graphVertex(end, layers[i].yTop, isGraphCurved, i == lastLayer);
+
+    // draw bottom edge, right to left
+    graphVertex(end, layers[i].yBottom, isGraphCurved, false);
+    for (int j = end; j >= start; j--) {
+      graphVertex(j, layers[i].yBottom, isGraphCurved, false);
+    }
+    graphVertex(start, layers[i].yBottom, isGraphCurved, false);
+
+    endShape(CLOSE);
+  }
+  
+  noStroke();  
+  
   // generate graph
   for (int i = 0; i < n; i++) {
     start = max(0, layers[i].onset - 1);
@@ -125,7 +156,7 @@ void draw() {
     graphVertex(start, layers[i].yBottom, isGraphCurved, false);
 
     endShape(CLOSE);
-  }
+  }  
 
   // give report
   long layoutTime = System.currentTimeMillis() - time;
