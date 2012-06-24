@@ -36,16 +36,16 @@ void setup() {
   data     = new DiaryDataSource(lines);
 
   // ORDER DATA
-  ordering = new LateOnsetSort();
+  //ordering = new LateOnsetSort();
   //ordering = new VolatilitySort();
-  //ordering = new InverseVolatilitySort();
+  ordering = new InverseVolatilitySort();
   //ordering = new BasicLateOnsetSort();
   //ordering = new NoLayerSort();
 
   // LAYOUT DATA
-  //layout   = new StreamLayout();
+  layout   = new StreamLayout();
   //layout   = new MinimizedWiggleLayout();
-  layout   = new ThemeRiverLayout();
+  //layout   = new ThemeRiverLayout();
   //layout   = new StackLayout();
 
   // COLOR DATA

@@ -62,7 +62,9 @@ public class DiaryDataSource implements DataSource {
     final int hoursInADay = 24;
     final int days        = n / hoursInADay;
     
-    final int initialHeight = 60;
+    final int initialHeight   = 60;
+    final float downScale     = 2;
+    final int noiseIterations = 2; 
     
     String dayData        = rawDays;
 
@@ -100,24 +102,24 @@ public class DiaryDataSource implements DataSource {
     }
     
     // Now ramp the data up to make it more interesting 
-    int scaleHeight = initialHeight/4;
+    float scaleHeight = initialHeight / downScale;
     
-    for (int i=0; i<1; i++) {
-      rampUp(x, scaleHeight);
+    for (int i = 0; i < noiseIterations; i++) {
+      addNoise(x, scaleHeight);
       
-      scaleHeight = scaleHeight / 4;
+      scaleHeight = scaleHeight / downScale;
     }    
    
     return x;
   }
   
-  protected void rampUp(float[] hours, float height) {
-    int count = (int)(rnd.nextFloat() * (hours.length/2));
+  protected void addNoise(float[] hours, float height) {
+    int count = (int)(rnd.nextFloat() * (hours.length));
    
     for (int i = 0; i < count; i++) {
        int index = (int)(rnd.nextFloat() * hours.length);   
        if (hours[index] != 0) {
-         hours[index] += (rnd.nextFloat() * height * 2);
+         hours[index] += (1 * height * 2) - height;
        }  
     }
   }  
