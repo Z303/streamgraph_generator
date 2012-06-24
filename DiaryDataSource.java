@@ -62,6 +62,8 @@ public class DiaryDataSource implements DataSource {
     final int hoursInADay = 24;
     final int days        = n / hoursInADay;
     
+    final int initialHeight = 60;
+    
     String dayData        = rawDays;
 
     for (int i=0; i < days; i++) {
@@ -79,7 +81,7 @@ public class DiaryDataSource implements DataSource {
   
           final int hourToSet = Integer.parseInt(currentData);
           final int arrayPosition = (hoursInADay * i) + hourToSet;
-          x[arrayPosition] = 1;
+          x[arrayPosition] = initialHeight;
           System.out.printf("%d\n", arrayPosition);         
           
           // Move to the next hour
@@ -96,7 +98,27 @@ public class DiaryDataSource implements DataSource {
       // Skip to the next day
       dayData = dayData.subSequence(dayEnd + 1, dayData.length()).toString();     
     }
-
+    
+    // Now ramp the data up to make it more interesting 
+    int scaleHeight = initialHeight/4;
+    
+    for (int i=0; i<1; i++) {
+      rampUp(x, scaleHeight);
+      
+      scaleHeight = scaleHeight / 4;
+    }    
+   
     return x;
   }
+  
+  protected void rampUp(float[] hours, float height) {
+    int count = (int)(rnd.nextFloat() * (hours.length/2));
+   
+    for (int i = 0; i < count; i++) {
+       int index = (int)(rnd.nextFloat() * hours.length);   
+       if (hours[index] != 0) {
+         hours[index] += (rnd.nextFloat() * height * 2);
+       }  
+    }
+  }  
 }

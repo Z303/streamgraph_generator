@@ -44,8 +44,8 @@ void setup() {
 
   // LAYOUT DATA
   //layout   = new StreamLayout();
-  layout   = new MinimizedWiggleLayout();
-  //layout   = new ThemeRiverLayout();
+  //layout   = new MinimizedWiggleLayout();
+  layout   = new ThemeRiverLayout();
   //layout   = new StackLayout();
 
   // COLOR DATA
