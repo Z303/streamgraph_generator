@@ -92,8 +92,20 @@ void draw() {
   int lastLayer = n - 1;
   int pxl;
 
-  background(255);
-  strokeWeight(2);  
+  final int backgroundColour = 255;
+  
+  final int outlineColour    = 100;
+  final int outlineWidth     = 3;
+  
+  final int insideColour     = 185;
+  final int insideWidth      = 1;
+   
+  background(backgroundColour);
+
+  stroke(outlineColour);  
+  strokeWeight(outlineWidth);
+
+  fill(outlineColour);  
 
   // calculate time to draw graph
   long time = System.currentTimeMillis();
@@ -103,10 +115,7 @@ void draw() {
     start = max(0, layers[i].onset - 1);
     end   = min(m - 1, layers[i].end);
     pxl   = i == lastLayer ? 0 : 1;
-
-    // set fill color of layer
-    fill(0);
-  
+ 
     // draw shape
     beginShape();
 
@@ -127,7 +136,8 @@ void draw() {
     endShape(CLOSE);
   }
   
-  noStroke();  
+  stroke(insideColour);  
+  strokeWeight(insideWidth);    
   
   // generate graph
   for (int i = 0; i < n; i++) {
