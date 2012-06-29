@@ -12,12 +12,20 @@
 
 String      fileName = "people.csv";
 
-boolean     isGraphCurved = true; // catmull-rom interpolation
-int         seed          = 28;   // random seed
+final boolean     isGraphCurved    = true; // catmull-rom interpolation
+final int         seed             = 28;   // random seed
 
-float       DPI           = 300;
-float       widthInches   = 7.756/3;
-float       heightInches  = 5.6102/3;
+final float       DPI              = 300;
+final float       widthInches      = 7.756/3;
+final float       heightInches     = 5.6102/3;
+
+final int         backgroundColour = 255;
+
+final int         outlineColour    = 100;
+final float       outlineWidth     = 3.0f;
+
+final int         insideColour     = 185;
+final float       insideWidth      = 1.0f;
 
 DataSource  data;
 LayerLayout layout;
@@ -91,15 +99,7 @@ void draw() {
   int lastIndex = m - 1;
   int lastLayer = n - 1;
   int pxl;
-
-  final int backgroundColour = 255;
   
-  final int outlineColour    = 100;
-  final int outlineWidth     = 3;
-  
-  final int insideColour     = 185;
-  final int insideWidth      = 1;
-   
   background(backgroundColour);
 
   stroke(outlineColour);  
