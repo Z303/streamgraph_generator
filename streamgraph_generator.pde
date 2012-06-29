@@ -15,17 +15,20 @@ String      fileName = "people.csv";
 final boolean     isGraphCurved    = true; // catmull-rom interpolation
 final int         seed             = 28;   // random seed
 
+
+final float       imageScale       = 3.0f;
+
 final float       DPI              = 300;
-final float       widthInches      = 7.756/3;
-final float       heightInches     = 5.6102/3;
+final float       widthInches      = 7.756/imageScale;
+final float       heightInches     = 5.6102/imageScale;
 
 final int         backgroundColour = 255;
 
 final int         outlineColour    = 100;
-final float       outlineWidth     = 3.0f;
+final float       outlineWidth     = 9.0f/imageScale;
 
 final int         insideColour     = 185;
-final float       insideWidth      = 1.0f;
+final float       insideWidth      = 3.0f/imageScale;
 
 DataSource  data;
 LayerLayout layout;
