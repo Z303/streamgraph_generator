@@ -1,3 +1,7 @@
 A processing application to generate graphs from csv files based on Stacked Graphs - Geometry & Aesthetics by Lee Byron
 
+* Forked from http://github.com/leebyron/streamgraph_generator
+* See also http://www.leebyron.com/else/streamgraph/
+* Streamgraph Generator is based on Java and Processing: http://processing.org
+
 This code is copyright under the BSD license.
